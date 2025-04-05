@@ -18,4 +18,4 @@ Se pueden recuperar ambos parciales(mismo dia).
 
 REGULAR
 
-para AD integrador de unidades 1-9 (Con instancia de recuperacion, si no uso recuperatorio) igual al final :(
+para AD integrador de unidades 1-9 (Con instancia de recuperacion, si no uso recuperatorio) igual al final :( !
