@@ -1,0 +1,226 @@
+\chapter{Guia 1 Ejercicio 12}
+
+Considerando el circuito de la figura 12 antes de que la llave cambie de posición
+(o sea, en $t = 0^{-}$ ), calcular el valor de la corriente del inductor $i_L(0^-) = I_{L0}$ y de
+tensión en el capacitor $v_C (0^-) = VC0$ . Calcular la solución numérica con $V = 10\V$ ,
+$R1 = 100\ohm$, $R2 = 270\ohm$, $L = 200\mH$, y $C = 0,1\F$.
+
+\begin{figure}[h]
+  \centering
+  \begin{circuitikz}
+    \ctikzset{resistors/scale=0.7}
+    \ctikzset{capacitors/scale=0.7}
+    \ctikzset{v/.append style={/tikz/american voltages}}
+    \draw (0,0) to[battery1, l_=$V$] ++(0,-2.5)
+      to[L, l_=$L$, f<_=$i_L$] ++(2.5,0) coordinate(L)
+      to[R, l_=$R_2$] ++(0,2.5) coordinate(R1)
+      to[R, l_=$R_1$] ++(-2.5,0);
+    \draw (R1) ++(2,-0.265) node[cute spdt up arrow, rotate=90, scale=0.75](SW){} ;
+    \draw (SW) ++(0,.5) node[](){$t=0$} ;
+    \draw (R1) to[short] (SW.out 1);
+
+    \draw (L) to[short] (SW.in |- L)
+      to[short] ++(0,0.4)
+      to[C=$C$, v<=$v_C$] (SW.in);
+
+    \draw (L) to[short] (SW.in |- L)
+      to[short] ++(2,0) coordinate (R3)
+      to[R, l_=$R$] (R3 |- SW.out 2)
+      to[short] (SW.out 2);
+
+  \end{circuitikz}
+  \caption{Circuito}
+\end{figure}
+
+Para $t < 0$ el circuito puede simplificarse a:
+
+\begin{figure}[h]
+  \centering
+  \begin{circuitikz}
+    \ctikzset{resistors/scale=0.7}
+    \ctikzset{capacitors/scale=0.7}
+    \ctikzset{v/.append style={/tikz/american voltages}}
+    \draw (0,0) to[battery1, l_=$V$] ++(0,-2.5)
+      to[L, l_=$L$, f<_=$\tiny i_L$, v^<=$v_{L}$] ++(2.5,0) coordinate(L)
+      to[R, l_=$R_2$, f_<=$\tiny i_{R_2}$] ++(0,2.5) coordinate(R1)
+      to[R, l_=$R_1$, v^<=$v_{R_1}$] ++(-2.5,0);
+    \draw (L) to[short] ++(2.5,0)
+      to[C=$C$, v<=$v_C$] ++(0,2.5)
+      to[short, f_<=$\tiny i_C$] (R1);
+  \end{circuitikz}
+  \caption{Circuito para $t<0$}
+\end{figure}
+
+El sistema de ecuaciones que modela el comportamiento del circuito es:
+
+\begin{equation}
+  \begin{cases}
+    V - v_{R_1} - v_C - v_L = 0\\
+    v_{R_1} = i_L R_1\\
+    i_C = C \dfrac{dv_C}{dt} \\
+    v_c = i_{R_2} R_2\\
+    v_L = L\dfrac{di_L}{dt}
+  \end{cases}
+\end{equation}
+
+Para el instante $t=0^-$ podemos considerar el regimen transitorio exstinto. Y como la unica fuente de exitacion del circuito es constante
+podemos considerar que las tensiones y corrientes del circuito tambien lo son,y por ende:
+
+\begin{gather}
+  \frac{dv_C}{dt} \Big|_{t=0^-} = 0 \quad \Rightarrow \quad i_C(0^-) = 0\\
+  \frac{di_L}{dt} \Big|_{t=0^-} = 0 \quad \Rightarrow \quad v_L(0^-) = 0
+\end{gather}
+
+Con estas consideraciones, podemos reescribir el circuito como:
+
+
+\begin{figure}[h]
+  \centering
+  \begin{circuitikz}
+    \ctikzset{resistors/scale=0.7}
+    \ctikzset{capacitors/scale=0.7}
+    \ctikzset{v/.append style={/tikz/american voltages}}
+    \draw (0,0) to[battery1, l_=$V$] ++(0,-2.5)
+      to[short, f<_=$\tiny i_L$,  v^<=$v_{L}$] ++(2.5,0) coordinate(L)
+      to[R, l_=$R_2$, f_<=$\tiny i_{R_2}$] ++(0,2.5) coordinate(R1)
+      to[R, l_=$R_1$, v^<=$v_{R_1}$] ++(-2.5,0);
+    \draw (L) to[short] ++(2.5,0)
+      to[open, o-o, v<=$v_C$] ++(0,2.5)
+      to[short, f_<=$\tiny i_C$] (R1);
+  \end{circuitikz}
+  \caption{Circuito para $t=0^-$}
+\end{figure}
+
+Podemos ahora calcular $i_L(0^-)$  y $v_c(0^-)$ como:
+
+\begin{equation}
+  i_L(0^-) = \frac{V}{R_1 + R_2}
+\end{equation}
+
+\begin{equation}
+  v_C(0^-) = i_L (0^-) R_2 =\frac{V}{R_1 + R_2}R_2
+\end{equation}
+
+Finalmente, para $V = 10\V$ , $R1 = 100\ohm$, $R2 = 270\ohm$,
+
+\begin{equation}
+  i_L(0^-) = \frac{10\V}{100\ohm + 270\ohm} = 27.027 \mA
+\end{equation}
+
+\begin{equation}
+  v_C(0^-) =\frac{10\V}{100\ohm + 270\ohm}270\ohm = 7.297 \V
+\end{equation}
+
+
+\chapter{Guia 2 Ejercicio 1}
+
+Calcular el valor medio, valor eficaz y factor de forma de las señal de excitación:
+
+
+\pgfmathsetmacro{\I}{1}
+\pgfmathsetmacro{\T}{2}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={[I]},
+        xtick={1,2},
+        xticklabels={\small$\frac{T}{2}$,\small$T$},
+        ytick={-2,-1,1,2},
+        yticklabels={$-2I_m$, , $I_m$},
+        domain=0:3,
+        samples=200,
+        grid=both,
+        width=7cm,
+        height=6cm,
+        ymin=-2.5, ymax=2.5,
+        xmin=0, xmax=3,
+      ]
+      \addplot[blue, thick,samples at={0,1}, restrict x to domain=0:1] {(6*\I/\T)* x -2*\I};
+      \addplot[blue, thick,samples at={1,2}, restrict x to domain=1:2] {-(6*\I/\T)* x +4*\I};
+      \addplot[blue, thick,samples at={2,3}, restrict x to domain=2:3] {(6*\I/\T)* x -8*\I};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Señal}
+\end{figure}
+
+Podemos definir por partes un periodo de la señal como:
+
+\begin{equation}
+i(t) =
+  \begin{cases}
+    \dfrac{3I_m}{T/2} t - 2I_m \quad 0>t>\frac{T}{2}\\\\
+    -\dfrac{3I_m}{T/2} t + 4I_m \quad \frac{T}{2}>t>T\\
+  \end{cases}
+\end{equation}
+
+\section{valor medio}
+
+El valor medio de la señal esta definido por:
+
+\begin{equation}
+  I_{med}= \frac{1}{T} \int_0^T i(t) dt
+\end{equation}
+
+Para calcular la integral, podemos sumar el area de los dos triangulos formados por la curva.
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={[I]},
+        xtick={1/3,2/3,1,4/3,5/3,2},
+        xticklabels={,\small$\frac{T}{3}$,\small$\frac{T}{2}$,,,\small$T$},
+        ytick={-2,-1,1,2},
+        yticklabels={$-2I_m$, , $I_m$},
+        domain=0:3,
+        samples=200,
+        grid=both,
+        width=6cm,
+        height=5cm,
+        ymin=-2.5, ymax=2.5,
+        xmin=0, xmax=2,
+      ]
+      \addplot[blue, thick,samples at={0,1}, restrict x to domain=0:1, name path=f] {(6*\I/\T)* x -2*\I};
+      \addplot[blue, thick,samples at={1,2}, restrict x to domain=1:2] {-(6*\I/\T)* x +4*\I};
+      \path[name path=axis] (axis cs:0,0) -- (axis cs:1,0);
+      \addplot[ fill=blue!20, fill opacity=0.5, ] fill between[of=f and axis];
+      \node at (axis cs:1,2) {\small Pico máximo};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Señal}
+\end{figure}
+
+
+%Separando la integral en los dos intervalos en los que se define la señal para un periodo y operando:
+%
+%\begin{equation}
+%  \begin{aligned}
+%    I_{med} &= \frac{1}{T} \left(\int_0^{\frac{T}{2}} \frac{3I_m}{T/2} t - 2I_m dt + \int_\frac{T}{2}^{T} -\frac{3I_m}{T/2} t + 4I_m dt\right)\\
+%    I_{med} &= \frac{1}{T} \left(\int_0^{\frac{T}{2}} \frac{3I_m}{T/2} t dt - \int_0^{\frac{T}{2}} 2I_m dt + \int_\frac{T}{2}^{T} -\frac{3I_m}{T/2} t dt
+%      + \int_\frac{T}{2}^{T}4I_m dt\right)\\
+%    I_{med} &= \frac{1}{T} \left(\frac{3I_m}{T/2} \int_0^{\frac{T}{2}} t dt - 2I_m \int_0^{\frac{T}{2}} dt -\frac{3I_m}{T/2} \int_\frac{T}{2}^{T} t dt
+%      + 4I_m \int_\frac{T}{2}^{T} dt\right)\\
+%    I_{med} &= \frac{1}{T} \left(\frac{3I_m}{T/2} \frac{t^2}{2} \Big|_0^{\frac{T}{2}} - 2I_m t\Big|_0^{\frac{T}{2}} -\frac{3I_m}{T/2} \frac{t^2}{2}\Big|_\frac{T}{2}^{T}
+%      + 4I_m t\Big|_\frac{T}{2}^{T} \right)\\
+%    I_{med} &= \frac{1}{T} \left(\frac{3I_m}{T/2} \frac{\left(\frac{T}{2}\right)^2}{2}- 2I_m \frac{T}{2} -\frac{3I_m}{T/2} \frac{t^2}{2}\Big|_\frac{T}{2}^{T}
+%      + 4I_m t\Big|_\frac{T}{2}^{T} \right)\\
+%  \end{aligned}
+%\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
